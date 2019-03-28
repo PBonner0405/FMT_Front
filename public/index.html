@@ -13,6 +13,23 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="stylesheet" href="style.css">
+    <link
+    href="assets/vendor_components/jvectormap/lib2/jquery-jvectormap-2.0.2.css"
+    rel="stylesheet"
+  />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css"
+      integrity="sha256-AJfZWudfDWpFpIZ3USExGYDGwsYz47IgfEQCiGTm4wQ="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -37,5 +54,63 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    
+    <script src="assets/js/jquery/jquery.2.2.4.min.js"></script>
+    <script src="assets/js/bootstrap/popper.min.js"></script>
+    <script src="assets/js/bootstrap/bootstrap.min.js"></script>
+    <script src="assets/js/plugins-js/menu-active.js"></script>
+    <script src="assets/js/plugins-js/plugins-js/materialize.js"></script>
+    <script src="assets/js/box-switch.js"></script>
+    <script src="assets/js/fullscreen.js"></script>
+    <script src="assets/js/nicescroll.min.js"></script>
+    <script src="assets/js/active.js"></script>
+    <!-- this plugins only for demo purpose -->
+    <script src="assets/js/settings.js"></script>
+    <!-- ======== /. Must needed plugins to the run this template ======= -->
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta
+      name="google-signin-client_id"
+      content="934398712916-7rhvqalcd9atuugulerv29lunv3k10bb.apps.googleusercontent.com"
+    />
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: '799512287069582',
+          cookie: true,
+          xfbml: true,
+          version: 'v3.2'
+        });
+
+        FB.AppEvents.logPageView();
+      };
+
+      (function(d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'facebook-jssdk');
+    </script>
+
+    <script>
+      $('.toggle').on('click', function() {
+        $('.container-login')
+          .stop()
+          .addClass('active');
+      });
+
+      $('.close').on('click', function() {
+        $('.container-login')
+          .stop()
+          .removeClass('active');
+      });
+    </script>
   </body>
 </html>
