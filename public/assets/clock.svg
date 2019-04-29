@@ -1,0 +1,17 @@
+
+<svg width="50px" height="49px" viewBox="313 302 50 49" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="if_simpline_10_2305640" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(315.000000, 303.000000)" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Layer_1" transform="translate(-0.000000, 0.000000)" stroke="#fff" stroke-width="2">
+            <ellipse id="Oval" cx="23.5" cy="22.96" rx="22.7030435" ry="22.27"></ellipse>
+            <ellipse id="Oval" cx="23.5" cy="22.96" rx="18.4117391" ry="18.06"></ellipse>
+            <path d="M34.4632609,3.44 C35.8854101,1.37444618 38.4339745,0.344354639 40.9308665,0.825890765 C43.4277585,1.30742689 45.3865372,3.20677852 45.9017466,5.6459601 C46.416956,8.08514169 45.3882238,10.5889555 43.291087,12" id="Shape"></path>
+            <path d="M3.71913043,12 C1.5972572,10.6083832 0.5389297,8.10419613 1.03639856,5.65218961 C1.53386743,3.20018308 3.48947134,1.28172623 5.99361732,0.789134161 C8.49776329,0.296542091 11.0588463,1.32651872 12.4856522,3.4" id="Shape"></path>
+            <path d="M41.6358696,46.65 L36.5986957,41.25" id="Shape"></path>
+            <path d="M10.4421739,41.2 L5.36413043,46.65" id="Shape"></path>
+            <polyline id="Shape" points="34.3304348 22.96 23.5 22.96 18.4423913 10.56"></polyline>
+        </g>
+    </g>
+</svg>

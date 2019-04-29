@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BrowserRouter from 'react-router-dom/BrowserRouter';
+import {BrowserRouter} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store';
 import AppRoutes from './AppRoutes';

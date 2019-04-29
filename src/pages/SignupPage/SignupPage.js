@@ -1,234 +1,267 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import SocialButton from './SocialButton';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 
-import { actionSignIn, actionSignOn } from '../../actions/index';
+import { LogInCard, Form, Button } from "../../Shared/styles.js";
+import { NavLink } from "react-router-dom";
 
-import './style.css';
+
 
 class SignupPage extends Component {
-  state = {
-    email: '',
-    password: '',
-    name: '',
-    fullName: '',
-    mobileNumber: '',
-    password: '',
-    isLogin: false,
-    countryCode: '+93',
-    selectedRole: 'Administrator',
-    value: 0
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      username: '',
+      password: '',
+    };
+  }
+  /*New*/
+  handlePasswordChanged(event) {
+    this.setState({ password: event.target.value });
+  }
+  handleemailChanged(event) {
+    this.setState({ email: event.target.value });
+  }
+  handleusernameChanged(event) {
+    this.setState({ username: event.target.value });
+  }
+  hidePassword(){
+    this.setState({showPassword : false})
+  }
+  showPassword(){
+    this.setState({showPassword : true})
+  }
 
-  onChangeEmail = e => {
-    this.setState({ email: e.target.value });
-  };
+  submitForm(e) {
+    e.preventDefault();
+    const {
+      email,
+      username,
+      password
+    } = this.state;
 
-  onChangePassword = e => {
-    this.setState({ password: e.target.value });
-  };
 
-  onChangeRole = e => {
-    this.setState({ selectedRole: e.target.value });
-  };
-
-  onChangeCode = e => {
-    this.setState({ countryCode: e.target.value });
-  };
-
-  onChangecPassword = e => {
-    this.setState({ cPassword: e.target.value });
-    this.setState({ value: 1 });
-  };
-
-  onChangeNumber = e => {
-    this.setState({ mobileNumber: e.target.value });
-  };
-
-  onChangeName = e => {
-    this.setState({ fullName: e.target.value });
-  };
-
-  handleSocialLoginFailure = err => {
-    console.error(err);
-    alert('Social Login Error. Please try again');
-  };
-
-  handleSocialLogin = user => {
-    // console.log('LinkedIn');
-    const { email, name } = user.profile;
-    // console.log(user.profile);
+    const url = 'https://b41f6da9.ngrok.io/users/register';
+    console.log("I am here!!!!!!!!!!");
     Axios({
       method: 'POST',
-      url: '/api/users/',
+      url: url,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       data: {
-        email,
-        fullName: name
+        email: email,
+        username: username,
+        password: password
       }
     })
       .then(res => {
         console.log(res.data);
-        const { statusCode } = res.data;
-        if (statusCode === 200) {
-          this.props.actionSignIn({ Email: email, UserName: name });
-          alert('Sign In Successful');
-          this.props.history.push('/dashboard');
-        } else if (statusCode === 404) {
-          alert('User not found');
-          this.props.history.push('/sign-up');
-        }
+        alert('Sign Up Successfull');
+        this.props.history.push('/login');
       })
       .catch(err => {
         console.log(err);
-        alert(err);
-      });
-  };
-
-  signIn(e) {
-    e.preventDefault();
-
-    const { email, password } = this.state;
-
-    console.log(email, password);
-
-    Axios({
-      method: 'POST',
-      url: 'https://api.wammopay.com/Token',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: `grant_type=password&username=${email}&password=${password}`
-    })
-      .then(res => {
-        // console.log(res.data);
-
-        const token = res.data;
-
-        this.props.actionSignOn({ token });
-
-        const { access_token } = token;
-
-        alert('Sign In Successfull');
-
-        Axios({
-          url: 'https://api.wammopay.com/api/Account/UserInfo',
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${access_token}`
-          }
-        })
-          .then(res => {
-            const data = res.data;
-
-            console.log(data);
-
-            if (data['Code'] === 401) {
-              this.props.history.push('/verify-email');
-            } else {
-              this.props.history.push('/dashboard');
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
+        // alert(err);
       });
   }
 
   render() {
-    const { email, password } = this.state;
 
     return (
-      <div className="template-light">
-        {/* Login  */}
-        <div className="wrapper wrapper-content--- overflow-hidden">
-          <div className="container-login">
-            <div className="wpay-logo text-center">
-              <img src={'/assets/img/core-img/wpay-logo.png'} alt="" />
+      <div className="loginContainer">
+        <LogInCard>
+          <Form className="p-3" onSubmit={this.submitForm.bind(this)}>
+            <p style={{color:'black',textTransform:'CAPITALIZE',fontSize:'44px',textAlign:'center',fontWeight:'bold'}}>Sign up</p>
+            <div className="input-group mb-4">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="basic-addon1">
+                  <i className="material-icons">account_circle</i>
+                </span>
+              </div>
+              <input
+                type="text"
+                name="username"
+                className="form-control"
+                value={this.state.username}
+                onChange={this.handleusernameChanged.bind(this)}
+                placeholder="Username"
+                required
+            />
             </div>
 
-            {/* Card Area Start */}
-            <div className="card-login-area">
-              <h1 className="title text-center">Sign In</h1>
-              <div className="input-container">
-                <label htmlFor="req" className="labelCss">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="req"
-                  value={email}
-                  onChange={this.onChangeEmail}
-                  required
-                />
+            <div className="input-group mb-4">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="basic-addon1">
+                  <i className="material-icons">email</i>
+                </span>
               </div>
-              <div className="input-container">
-                <label htmlFor="pass" className="labelCss">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="pass"
-                  name="password"
-                  value={password}
-                  onChange={this.onChangePassword}
-                  required
-                />
+              <input
+                type="email"
+                className="form-control"
+                value={this.state.email}
+                onChange={this.handleemailChanged.bind(this)}
+                placeholder="Email"
+                required
+            />
+            </div>
+            
+          
+            <div className="input-group mb-4">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="basic-addon1">
+                  <i className="material-icons">vpn_key</i>
+                </span>
               </div>
-              <div className="input-container">
-                <div className="row">
-                  <div className="col-sm-6">
-                    <div className="check-field">
-                      <input type="checkbox" id="remember" name="horns" />
-                      {/* <input type="checkbox" id="remember" /> */}
-                      <label htmlFor="remember" className="rememberMe">
-                        Remember me
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-sm-6 text-right">
-                    <a href="/forget-password" className="foget-pwd">
-                      Forget Password?
+              <input
+                type = {!this.state.showPassword?"password":"text"}
+                className="form-control"
+                value={this.state.password}
+                name="password"
+                placeholder="Password"
+                onChange={this.handlePasswordChanged.bind(this)}
+                required
+            />
+            { !this.state.showPassword ?(
+                    <div className="input-group-apppend">
+                    <div className="input-group-text passwordbug">
+                    <a href="javascript:;" onClick={this.showPassword.bind(this)}>
+                    <i className="material-icons">visibility</i>
                     </a>
-                  </div>
-                </div>
-              </div>
-              <div className="button-container">
-                <button onClick={e => this.signIn(e)}>
-                  <span>Sign In</span>
-                </button>
-              </div>
-
-              <SocialButton
-                provider="facebook"
-                appId="799512287069582"
-                onLoginSuccess={this.handleSocialLogin}
-                onLoginFailure={this.handleSocialLoginFailure}
-              >
-                Login with Facebook
-              </SocialButton>
-              <SocialButton
-                provider="google"
-                appId="934398712916-12m9poigpmaa5aivk5gjfq4i882oqq8u.apps.googleusercontent.com"
-                onLoginSuccess={this.handleSocialLogin}
-                onLoginFailure={this.handleSocialLoginFailure}
-              >
-                Login with Google
-              </SocialButton>
-              <div className="not-account mt-2">
-                Don't have an account? <a href="/sign-up">SignUp Here</a>
-              </div>
-            </div>
-            {/* Card Area End */}
-          </div>
+                    </div>
+                    </div>):
+              (<div className="input-group-apppend">
+               <div className="input-group-text passwordbug">
+               <a href="javascript:;" onClick={this.hidePassword.bind(this)}>
+               <i className="material-icons">visibility_off</i>
+               </a>
+               </div>
+               </div>)}      
         </div>
+            <Button className="btn btn-lg btn-primary" style={{background:'#597bd9'}}type="submit">
+              Sign Up
+            </Button>
+            
+            <p className="text-center" style={{margin:'20px 0px',fontSize: "24px" }}>
+              <NavLink to="/login">Already Have a Account?</NavLink>
+            </p>
+          </Form>
+          <svg
+            className="rocks"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            <polygon
+              className="svg--sm"
+              fill="red"
+              points="0,0 30,100 65,21 90,100 100,75 100,100 0,100"
+            />
+            <polygon
+              className="svg--lg"
+              fill="red"
+              points="0,0 15,100 33,21 45,100 50,75 55,100 72,20 85,100 95,50 100,80 100,100 0,100"
+            />
+          </svg>
+          <svg className="gradient">
+            <defs>
+              <linearGradient id="grad">
+                <stop offset="0" stopColor="#97ABFF" />
+                <stop offset="1" stopColor="#123597" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </LogInCard>
       </div>
+      // <div className="template-light">
+      //   <div className="wrapper wrapper-content--- overflow-hidden">
+      //     <div className="container-login">
+      //       {/* <div className="wpay-logo text-center">
+      //         <img src={'/assets/img/core-img/wpay-logo.png'} alt="" />
+      //       </div> */}
+      //       {/* Card Area  */}
+      //       <div className="card-login-area">
+      //         <h1 className="title text-center">Sign Up</h1>
+      //         <div className="input-container">
+      //           <label htmlFor="req">Email</label>
+      //           <input
+      //             type="email"
+      //             id="email"
+      //             required
+      //             value={email}
+      //             onChange={this.onChangeEmail}
+      //             name="email"
+      //           />
+      //         </div>
+      //         <div className="input-container">
+      //           <label htmlFor="req">User Name</label>
+      //           <input
+      //             type="text"
+      //             id="uName"
+      //             required
+      //             onChange={e => this.onChangeUserName(e)}
+      //             value={username}
+      //           />
+      //         </div>
+
+      //         <div className="input-container">
+      //           <label htmlFor="req">Nick Name</label>
+      //           <input
+      //             type="text"
+      //             id="nName"
+      //             required
+      //             onChange={e => this.onChangeNickName(e)}
+      //             value={nickname}
+      //           />
+      //         </div>              
+              
+      //         <div className="input-container">
+      //           <label htmlFor="pass">Password</label>
+      //           <input
+      //             type="password"
+      //             id="pass"
+      //             name="password"
+      //             required
+      //             value={password}
+      //             onChange={e => this.onChangePassword(e)}
+      //           />
+      //         </div>
+      //         <div className="input-container">
+      //           <label htmlFor="cPass">Confirm Password</label>
+      //           <input
+      //             type="password"
+      //             id="cPass"
+      //             name="password"
+      //             required
+      //             value={cPassword}
+      //             onChange={e => this.onChangecPassword(e)}
+      //           />
+      //         </div>
+      //         <div className={value ? 'd-inline' : 'd-none'}>
+      //           {cPassword === password ? (
+      //             <h4>Password Matched</h4>
+      //           ) : (
+      //             <h4>Password Not Matched</h4>
+      //           )}
+      //         </div>
+      //         <div className="button-container" onClick={this.Register}>
+      //           <button>
+      //             <span>Sign Up</span>
+      //           </button>
+      //         </div>
+      //         <div className="not-account">
+      //           Already have an account? <a href="/login">Sign In Here</a>
+      //         </div>
+      //       </div>
+
+      //       {/* Card Area  */}
+      //     </div>
+      //   </div>
+      // </div>
     );
   }
 }
@@ -237,8 +270,7 @@ const mapStateToProps = state => ({
   ...state
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ actionSignIn, actionSignOn }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 export default withRouter(
   connect(
