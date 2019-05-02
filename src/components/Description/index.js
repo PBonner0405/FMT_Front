@@ -1,6 +1,6 @@
 import React from 'react';
 
-class DescriptionComponent extends React.Component{
+class Description extends React.Component{
     render(){
         return(
             <section class="call-to-action section-sm" id="description">
@@ -18,4 +18,4 @@ class DescriptionComponent extends React.Component{
     }
 }
 
-export default DescriptionComponent;
+export default Description;

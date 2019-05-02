@@ -2,7 +2,7 @@ import React from 'react';
 import ChildPortfolio from './ChildPortfolio';
 import Pagination from 'react-js-pagination';
 
-class PortfolioComponent extends React.Component{
+class Portfolio extends React.Component{
     constructor(props){
         super(props);
         this.state = {...props};
@@ -38,7 +38,7 @@ class PortfolioComponent extends React.Component{
     }
 }
 
-PortfolioComponent.defaultProps = {
+Portfolio.defaultProps = {
     selectedPageId:1,
     activePage:1,
     list: [
@@ -46,4 +46,4 @@ PortfolioComponent.defaultProps = {
     ]
     
 }
-export default PortfolioComponent;
+export default Portfolio;

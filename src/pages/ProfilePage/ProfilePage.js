@@ -1,21 +1,21 @@
 import React, {Component} from 'react';
-import StockComponent from './StockComponent';
-import AboutComponent from './AboutComponent';
-import TradingComponent from './TradingComponent';
-import DescriptionComponent from './DescriptionComponent';
+import Stock from '../../components/Stock';
+import About from '../../components/About';
+import Trading from '../../components/Trading';
+import Description from '../../components/Description';
 import './style.css';
-import PortfolioComponent from './PortfolioComponent';
-import MenuBarComponent from './MenuBarComponent';
+import Portfolio from '../../components/Portfolio';
+import MenuBar from '../../components/ProfileMenubar';
 class ProfilePage extends Component{
     render(){
         return(
             <div>              
-                <MenuBarComponent/>
-                <AboutComponent/>
-                <StockComponent/>
-                <TradingComponent/>
-                <DescriptionComponent/>
-                <PortfolioComponent/>
+                <MenuBar/>
+                <About/>
+                <Stock/>
+                <Trading/>
+                <Description/>
+                <Portfolio/>
             </div>
         );
     }

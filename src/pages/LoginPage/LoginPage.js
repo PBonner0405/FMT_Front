@@ -6,6 +6,10 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 
 import { actionSignIn, actionSignOn } from '../../actions/index';
+import FacebookLogin from 'react-facebook-login';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 import {
   LogInCard,
@@ -48,15 +52,14 @@ class LoginPage extends Component {
         if(res.data === 'Login success!')
           this.props.history.push('/profile');
         else
-          alert('Log In Failed');
+          NotificationManager.error(res.data,'Error',5000);
         
       })
       .catch(err => {
         console.log(err);
-        this.setState({error: "Authentication Failed"});
+        NotificationManager.error('Authentication Failed','Error',5000);
       });
   }
-  
   handleemailChanged(event){
     this.setState({ email: event.target.value });
 
@@ -74,38 +77,28 @@ class LoginPage extends Component {
   }
 
 /*        --------FACEBOOK LOGIN---------      */
-  handleSocialLoginFailure = err => {
-    console.error(err);
-    alert('Social Login Error. Please try again');
-  };
+  
+  responseFacebook = user => {
+    console.log(user);
+    
+    const url = 'https://b41f6da9.ngrok.io/users/register';
 
-  handleSocialLogin = user => {
-    // console.log('LinkedIn');
-    const { email, name } = user.profile;
-    // console.log(user.profile);
     Axios({
       method: 'POST',
-      url: '/api/users/',
+      url: url,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       data: {
-        email,
-        fullName: name
+        username: user.name,
       }
     })
       .then(res => {
         console.log(res.data);
-        const { statusCode } = res.data;
-        if (statusCode === 200) {
-          this.props.actionSignIn({ Email: email, UserName: name });
-          alert('Sign In Successful');
-          this.props.history.push('/dashboard');
-        } else if (statusCode === 404) {
-          alert('User not found');
-          this.props.history.push('/signup');
-        }
+        this.props.history.push('/profile');
       })
       .catch(err => {
         console.log(err);
-        alert(err);
       });
   };
 
@@ -167,9 +160,13 @@ class LoginPage extends Component {
             <Button className="btn btn-lg btn-primary" style={{background:'#597bd9'}} type="submit">
               Sign In
             </Button>
-            <p className="text=center" style={{ color: "red" }}>
-              {this.state.error}
-            </p>
+            
+            <FacebookLogin
+              appId="277762109835166"
+              fields="name,email,picture"
+              callback={this.responseFacebook}
+              cssClass="btn btn-lg btn-primary pvCaS facebookbtn"/>
+
             <p className="text-center" style={{ fontSize: "24px" }}>
               <NavLink to="/signup">Yet to Signup?</NavLink>
             </p>
@@ -200,6 +197,7 @@ class LoginPage extends Component {
             </defs>
           </svg>
         </LogInCard>
+        <NotificationContainer/>
       </div>
       
       // <div className="template-light">

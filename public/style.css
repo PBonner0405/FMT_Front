@@ -304,10 +304,10 @@ a:focus, a:hover {
   }
 }
 
-.title {
+/* .title {
   padding-bottom: 50px;
   text-align: center;
-}
+} */
 
 .title h2 {
   font-size: 35px;
@@ -1756,101 +1756,150 @@ a:focus, a:hover {
 .passwordbug{
   padding-bottom: 3px!important;
 }
-/*---------------MENU-----------------*/
+/*---------------NAVBAR START-----------------*/
 
-
-.navigation {
-  transition: .3s all;
-  background: #1f2532;
+.navbar-brand  span{
+	color: #fed136;
+	font-size:25px;font-weight:700;letter-spacing:0.1em;
+    font-family: 'Kaushan Script','Helvetica Neue',Helvetica,Arial,cursive;
 }
-
-.navigation .navbar-nav > li.active a {
-  color: #fff;
-}
-
-.navigation .navbar-nav > li > a {
-  color: #707d8f;
-  font-size: 15px;
-  line-height: 26px;
-  padding: 20px 15px !important;
-  transition: .2s ease-in-out 0s;
-}
-
-@media (max-width: 480px) {
-  .navigation .navbar-nav > li > a {
-    padding: 8px 0 !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .navigation .navbar-nav > li > a {
-    padding: 8px 0 !important;
-  }
-}
-
-.navigation .navbar-nav > li > a:hover, .navigation .navbar-nav > li > a:active, .navigation .navbar-nav > li > a:focus {
-  background: none;
-  color: #31BB9E;
-}
-
-.navigation .navbar-toggler {
-  color: #fff;
-  font-size: 30px;
-  cursor: pointer;
-  outline: none;
-}
-
-.navigation .nav .open > a {
-  background: none;
-}
-
-.navigation .dropdown {
-  padding: 0;
-}
-
-.navigation .dropdown .dropdown-item {
-  padding: 8px 15px;
-  color: #fff;
-  font-size: 13px;
-}
-
-.navigation .dropdown .dropdown-item:hover {
-  background: transparent;
-  color: #31BB9E;
-}
-
-.navigation .dropdown .dropdown-menu {
-  border-radius: 0;
-  -webkit-transform-origin: top;
-          transform-origin: top;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-  -webkit-transform: scale(1, 0);
-          transform: scale(1, 0);
-  background-color: #000;
-  display: block;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out,-webkit-transform 0.3s;
-  transition: transform 0.3s,opacity 0.3s ease-in-out;
-  transition: transform 0.3s,opacity 0.3s ease-in-out,-webkit-transform 0.3s;
-}
-
-.navigation .dropdown:hover .dropdown-menu {
-  transition: opacity 0.3s ease-in-out,-webkit-transform 0.3s;
-  transition: transform 0.3s,opacity 0.3s ease-in-out;
-  transition: transform 0.3s,opacity 0.3s ease-in-out,-webkit-transform 0.3s;
-  -webkit-transform: scale(1, 1);
-          transform: scale(1, 1);
-  opacity: 1;
-}
-
 .navbar-brand {
-  height: auto;
-  padding: 8px 0;
-  color: #31BB9E;
+	color: #fff;
+	font-size:25px;
+    font-family: 'Kaushan Script','Helvetica Neue',Helvetica,Arial,cursive;
+	font-weight:700;
+	letter-spacing:0.1em;
 }
 
-.navbar-brand h1 {
-  margin: 0;
-  font-size: 25px;
+.navbar-nav .nav-item .nav-link{
+	padding: 1.1em 1em!important;
+	font-size: 120%;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #fff;
+   font-family: 'Gothic A1', sans-serif;
+}
+.navbar-nav .nav-item .nav-link:hover{color:#fed136;}
+.navbar-expand-md .navbar-nav .dropdown-menu{
+	border-top:3px solid #fed136;
+}
+.dropdown-item:hover{background-color:#fed136;color:#fff;}
+nav{-webkit-transition: padding-top .3s,padding-bottom .3s;
+    -moz-transition: padding-top .3s,padding-bottom .3s;
+    transition: padding-top .3s,padding-bottom .3s;
+    border: none;
+	}
+.nav-link{
+  color:#fff!important;
+}
+ .shrink {
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: #212529;
+}
+.banner{
+	background-image:url('http://www.hd-freewallpapers.com/latest-wallpapers/abstract-website-backgrounds.jpg');
+	text-align: center;
+    color: #fff;
+   
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.banner-text{
+	padding:200px 0 150px 0;
+}
+.banner-heading{
+	font-family: 'Lobster', cursive;
+	font-size: 75px;
+    font-weight: 700;
+    line-height: 100px;
+    margin-bottom: 30px;
+	color:#fff;
+}
+.banner-sub-heading{
+	font-family: 'Libre Baskerville', serif;
+	font-size: 30px;
+    font-weight: 300;
+    line-height: 30px;
+    margin-bottom: 50px;
+	color:#fff;
+}
+
+.btn-banner{
+	padding:5px 20px;
+	border-radius:10px;
+	font-weight:700;
+	line-height:1.5;
+	text-align:center;
+	color:#fff;
+	text-transform:uppercase;
+}
+.text-intro{
+	width:90%;
+	margin:auto;
+	text-align:center;
+	padding-top:30px;
+}
+
+
+/* mobile view */
+@media (max-width:500px)
+{
+	.navbar-nav{
+		background-color:#212529;
+		border-top:3px solid #fed136;
+		color:#fff;
+		z-index:1;
+		margin-top:5px;
+    }
+    .navbar{
+      
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: #212529;
+    }
+	.navbar-nav .nav-item .nav-link{
+	padding: 0.7em 1em!important;
+	font-size: 100%;
+    font-weight: 500;
+    }
+	.banner-text{
+	padding:150px 0 150px 0;
+}
+.banner-heading{
+	font-size: 30px;
+    line-height: 30px;
+    margin-bottom: 20px;
+}
+.banner-sub-heading{
+	font-size: 10px;
+    font-weight: 200;
+    line-height: 10px;
+    margin-bottom: 40px;
+}
+
+}
+
+@media (max-width:768px){
+	.banner-text{
+	padding:150px 0 150px 0;
+}
+	.banner-sub-heading{
+	font-size: 23px;
+    font-weight: 200;
+    line-height: 23px;
+    margin-bottom: 40px;
+}
+}
+
+/*            NAVBAR END         */
+
+.facebookbtn{
+  background:rgb(89, 123, 217)!important;
+  margin-bottom: 20px!important;
 }

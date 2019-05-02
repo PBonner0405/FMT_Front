@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ChildStock from './ChildStock';
 import Pagination from 'react-js-pagination';
 
-class StockComponenet extends Component{
+class Stock extends Component{
 
     constructor(props){
         super(props);
@@ -62,7 +62,7 @@ class StockComponenet extends Component{
         )
     }
 }
-StockComponenet.defaultProps = {
+Stock.defaultProps = {
     selectedPageId:1,
     activePage:1,
     list: [
@@ -70,4 +70,4 @@ StockComponenet.defaultProps = {
     ]
     
 }
-export default StockComponenet;
+export default Stock;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-class TradingComponent extends React.Component{
+class Trading extends React.Component{
     render(){
         return(
             <section class="about-2 section bg-gray" id="trading">
@@ -23,4 +23,4 @@ class TradingComponent extends React.Component{
     }
 }
 
-export default TradingComponent;
+export default Trading;

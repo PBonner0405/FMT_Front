@@ -1,9 +1,9 @@
 import React from 'react';
 
-class AboutComponent extends React.Component{
+class About extends React.Component{
     render(){
         return(
-            <section class="hero-area" id="#about">
+            <section class="hero-area" id="about">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3">
@@ -19,13 +19,8 @@ class AboutComponent extends React.Component{
                     </div>
                 </div>
             </section>
-            // <div className ="text-center" style={headerStyle}>
-            //     <img style={imgStyle} className = "avatar" src={'/assets/img/avatar.jpg'} alt="" />
-            //     <h2 style={hStyle}>Full Name</h2>
-            //     <h2 style={hStyle}>Nick Name</h2>
-            // </div>
         )
     }
 }
 
-export default AboutComponent;
+export default About;

@@ -17,14 +17,13 @@ class AppRoutes extends Component {
     render() {
         return (
             <Switch>
-                <Route exact path='/login' component={LoginPage} />
-                {/* <Route path='/login' component={LoginPage} /> */}
+                <Route path='/login' component={LoginPage} />
                 <Route path='/signup' component={SignupPage} />
                 <Route path='/profile' component={ProfilePage} />
                 <Route path='/portfolio' component={PortfolioPage} />
                 <Route path='/landingpage' component={LandingPage} />
                 <Route path='/comparepage' component={ComparePage} />
-                <Redirect exact from='/' to='/login' />
+                <Redirect exact from='/' to='/landingpage' />
                 <Route component={NotFound} />
             </Switch>
         );
