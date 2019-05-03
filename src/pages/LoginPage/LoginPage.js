@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 
-import { actionSignIn, actionSignOn } from '../../actions/index';
+import { actionSignIn, actionSignOn,getStock } from '../../actions/index';
 import FacebookLogin from 'react-facebook-login';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
@@ -35,10 +35,9 @@ class LoginPage extends Component {
     const { email, password } = this.state;
 
     console.log(email, password);
-
     Axios({
       method: 'POST',
-      url: 'https://b41f6da9.ngrok.io/users/login ',
+      url: 'http://192.168.1.120:8000/users/login ',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -49,8 +48,11 @@ class LoginPage extends Component {
     })
       .then(res => {
         console.log(res.data);
-        if(res.data === 'Login success!')
+        if(res.data === 'Login success!') {
+          this.props.actionSignIn({email});
+          this.props.getStock('testuser');
           this.props.history.push('/profile');
+        }
         else
           NotificationManager.error(res.data,'Error',5000);
         
@@ -285,11 +287,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ actionSignIn, actionSignOn }, dispatch);
+  bindActionCreators({ actionSignIn, actionSignOn, getStock }, dispatch);
 
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
   )(LoginPage)
 );

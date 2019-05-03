@@ -1903,3 +1903,10 @@ nav{-webkit-transition: padding-top .3s,padding-bottom .3s;
   background:rgb(89, 123, 217)!important;
   margin-bottom: 20px!important;
 }
+.userimg{
+  width: 32px;
+  height: 32px;
+  border-radius: 50px;
+  margin-right: 8px;
+  margin-top: -4px;
+}

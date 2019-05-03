@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
 import ChildStock from './ChildStock';
 import Pagination from 'react-js-pagination';
-
+import Modal from './Modal';
+import { connect } from 'react-redux';
 class Stock extends Component{
 
     constructor(props){
         super(props);
-        this.state = {...props};
+        this.state = {    
+            selectedPageId:1,
+            activePage:1,
+        };
+        this.superheroElement = React.createRef();
     }
-
     handlePageChange(pageNumber)
     {
         console.log(`active page is ${pageNumber}`);
@@ -20,21 +24,31 @@ class Stock extends Component{
             }
         });
     }
+
+    clearModal(event){
+        event.preventDefault();
+        this.superheroElement.current.clearModal();
+    }
     render(){    
-        let {selectedPageId, list} = this.state;
+        let {selectedPageId} = this.state;
+        let { list } = this.props;
         let listShow = [...list];
         console.log(listShow,"-----------");
-        console.log(list.length,"-----------");
+        console.log(listShow.length,"-----------");
         listShow = listShow.splice((selectedPageId - 1) * 4, 4);
         return(
             <section className="counter section-sm" id="stock">
                 <div className="container">
                     <div class="title text-center">
-                            <h2>STOCK</h2>
-                            <span class="border"></span>
+                        <h2>STOCK</h2>
+                        <span class="border"></span>
+                        <div>
+                            <img style={{width:'50px',cursor:'pointer'}}src="assets/img/plus.jpg" data-toggle="modal" data-target="#StockModal" onClick={e => this.clearModal(e)}></img>
                         </div>
+                        <Modal ref={this.superheroElement}/>
+                    </div>
                     <div className="row">
-                        {listShow.map(i => <ChildStock key={i.name} desc={i.name}></ChildStock>)}
+                        {listShow.map(i => <ChildStock key={i.stockName} desc={i.stockName}></ChildStock>)}
                     </div>
                     <Pagination
                         hideNavigation
@@ -46,28 +60,13 @@ class Stock extends Component{
                         onChange={this.handlePageChange.bind(this)}/>                    
                 </div>
             </section>
-            // <div style={divStyle}>
-            //     <div className="row">
-            //         {listShow.map(i => <ChildStock key={i.name} desc={i.name}></ChildStock>)}
-            //     </div>
-            //     <Pagination
-            //         hideNavigation
-            //         hideDisabled
-            //         itemCountPerPage ={10}
-            //         activePage={this.state.activePage}
-            //         totalItemsCount={list.length * 10 / 4}
-            //         pageRangeDisplayed={4}
-            //         onChange={this.handlePageChange.bind(this)}/>
-            // </div>
+
         )
     }
 }
-Stock.defaultProps = {
-    selectedPageId:1,
-    activePage:1,
-    list: [
-        {name: 'Oil'},{name:'Furniture'},{name:'Cars'},{name:'Food'},{name: 'Oil1'},{name:'Furniture1'},{name:'Cars1'},{name:'Food1'},{name: 'Oil2'},{name:'Furniture2'},{name:'Cars2'},{name:'Food2'},{name: 'Oil3'},{name:'Furniture3'}
-    ]
-    
+const mapStateToProps = (state,ownprops) => {
+    console.log("STOCKCOMP",state.stocks.stock);
+    return state.stocks.stock === undefined ? {list:[]} : {list: state.stocks.stock};
 }
-export default Stock;
+
+export default connect(mapStateToProps)(Stock);

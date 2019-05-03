@@ -45,7 +45,7 @@ class SignupPage extends Component {
     } = this.state;
 
 
-    const url = 'https://b41f6da9.ngrok.io/users/register';
+    const url = 'http://192.168.1.120:8000/users/register';
     console.log("I am here!!!!!!!!!!");
     Axios({
       method: 'POST',
