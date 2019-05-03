@@ -4,9 +4,9 @@ class InformType extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            date:'',
             price:'',
-            profit:''
+            profit:'',
+            date:''
         }
     }
     handleDateChange(event)
@@ -15,11 +15,14 @@ class InformType extends React.Component{
     }
     handlePriceChange(event)
     {
-        this.setState({ date: event.target.value });
+        this.setState({ price: event.target.value });
     }
     handleProfitChange(event)
     {
-        this.setState({ date: event.target.value });
+        this.setState({ profit: event.target.value });
+    }
+    getData() {
+        return this.state;
     }
     render(){
         return(
