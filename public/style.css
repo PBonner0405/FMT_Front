@@ -1910,3 +1910,37 @@ nav{-webkit-transition: padding-top .3s,padding-bottom .3s;
   margin-right: 8px;
   margin-top: -4px;
 }
+
+/*          AMCHARTS        */
+.amcharts-chart-div a{
+  color:rgba(0, 0, 0, 0) !important;
+}
+.compare .nav-link.active{
+  background-color:#1a1b1ce0!important;
+}
+.compare .nav a{
+  border-color:#31BB9E!important;
+}
+.compare .nav{
+  border:0px;
+}
+.compare{
+  min-height: 100vh;
+  background:#31BB9E;
+}
+.compare .col-md-12{
+  padding:0px!important;
+  margin-top:30px;
+  
+}
+#__AmCharts_React_1__{
+  background:#101c1cc4;
+}
+text{
+  fill:#fff!important;
+}
+.ReactTable{
+  width:100%;
+  height:656px;
+  background:#fff;
+}

@@ -33,7 +33,7 @@ import Axios from 'axios';
   });
   
   export const getStock = (username) => async (dispatch) => {
-    Axios({
+    await Axios({
       method: 'POST',
       url: 'http://192.168.1.120:8000/api/getUserStocks',
       headers: {
@@ -44,9 +44,28 @@ import Axios from 'axios';
       }
     })
     .then(res => {
-      console.log("STOCK:",res);
       dispatch({
-        type: 'GETSTOCK',
+        type: 'GET_STOCK',
+        payload:res.data
+      })
+    })
+    
+  };
+
+  export const getPortfolio = (username) => async (dispatch) => {
+    await Axios({
+      method: 'POST',
+      url: 'http://192.168.1.120:8000/api/getUserPortfolios',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: {
+        _username:username
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: 'GET_PORTFOLIO',
         payload:res.data
       })
     })

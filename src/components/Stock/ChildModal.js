@@ -20,9 +20,7 @@ class InformType extends React.Component{
     handleProfitChange(event)
     {
         this.setState({ profit: event.target.value });
-    }
-    getData() {
-        return this.state;
+        
     }
     render(){
         return(

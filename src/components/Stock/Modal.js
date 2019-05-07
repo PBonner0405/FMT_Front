@@ -1,30 +1,41 @@
 import React from 'react';
-import InformType from './InformType';
+import InformType from './ChildModal';
 import Axios from 'axios';
-
+import cookieRead from '../../browser/cookieRead';
 
 class Modal extends React.Component{
     constructor(props){
         super(props);
         this.state={
             inform:[],
-            stockname:''
+            stockname:'',
+            cnt:0
+            
         }
         this.ref_infos = [];
     }
+    Addcount(){
+        const cnt = this.state.cnt + 1;
+        this.setState({
+            cnt:cnt
+        })
+    }
+
     addStock(event){
         event.preventDefault();
         const inform = this.state.inform;
+        this.Addcount();
         this.setState({
-            inform: inform.concat(<InformType ref={(ref) => this.ref_infos = [...this.ref_infos, ref] }/>)
+            inform: inform.concat(<InformType key = {this.state.cnt} ref={(ref) => this.ref_infos = [...this.ref_infos, ref] }/>)
         })
     }
-    sendStock(e){
-        e.preventDefault();
+    sendStock(event){
         var hisarr = [];
         this.ref_infos.map(function(object, index){
+            if(object != null || object != undefined)
             hisarr.push(object.state);
         })
+        const username = cookieRead('username');
         Axios({
             method: 'POST',
             url: "http://192.168.1.120:8000/api/addnewstock",
@@ -34,20 +45,24 @@ class Modal extends React.Component{
             data: {
               _name:this.state.stockname,
               _histArray:hisarr,
-              _username:"testuser"
+              _username:username
             }
           })
             .then(res => {
-              alert("CONGRATULATION");
+                
             })
             .catch(err => {
               console.log(err);
             });
+        
     }
     clearModal(){
         this.ref_infos = [];
+        this.state.stockname='';
+        console.log(this.state);
+        this.Addcount();
         this.setState({
-            inform:[<InformType ref={(ref) => this.ref_infos = [...this.ref_infos, ref]}/>,]
+            inform:[<InformType key = {this.state.cnt} ref={(ref) => this.ref_infos = [...this.ref_infos, ref]}/>,]
         });
     }
     handleStocknameChnage(event){
@@ -65,7 +80,7 @@ class Modal extends React.Component{
                             <div class="modal-body" style={{padding:'50px'}}>
                                     <div class="d-flex col-md-8" style={{margin:'auto', marginBottom:'40px'}}>
                                         <p>Stock Name</p>
-                                        <input type="text" class="form-control" required onChange={this.handleStocknameChnage.bind(this)}/>
+                                        <input type="text" class="form-control" required value={this.state.stockname} onChange={this.handleStocknameChnage.bind(this)}/>
                                     </div>
                                     {this.state.inform.map(function(input){
                                         return input;

@@ -22,7 +22,14 @@ const numStyle={
 class ChildPortfolio extends React.Component{
     portfolio(e){
         e.preventDefault();
-        this.props.history.push('/portfolio');
+        this.props.history.push(
+        {
+            pathname:'/portfolio',
+            state: { title:this.props.title,
+                     comment:this.props.comment,
+                     likes:this.props.likes}
+        }
+        );
     }
     render(){
         return(
@@ -32,23 +39,15 @@ class ChildPortfolio extends React.Component{
                         <div class="price">
                             <span>€122</span>
                         </div>
-                        <p>{this.props.desc}</p>
+                        <p>{this.props.title}</p>
                         <div style={likeStyle}>
                             <i className="fa fa-thumbs-up" style={iStyle}></i>
-                            <h3 style={numStyle}>55</h3>
+                            <h3 style={numStyle}>{this.props.likes}</h3>
                         </div>
                     </div>
                 </div>
             </div>
-            // <div className="col-md-4" style={conStyle}>
-            //     <button onClick={e => this.portfolio(e)} style={{height:'200px'}} type="button" className="btn btn-info btn-lg btn-block">
-            //         <h2 style={hStyle}>{this.props.desc}</h2>
-            //         <div style={likeStyle}>
-            //             <i className="fa fa-thumbs-up" style={iStyle}></i>
-            //             <h3 style={numStyle}>55</h3>
-            //         </div>
-            //     </button>
-            // </div>
+
         )
     }
 }

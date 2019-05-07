@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import cookieRead from '../../browser/cookieRead';
 class ProfileMenuBar extends React.Component{
     render(){
+        const username = cookieRead('username');
         return(
             <section className="header  navigation">
                 <div className="container">
@@ -37,7 +38,7 @@ class ProfileMenuBar extends React.Component{
                                             <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
                                                 <img className="userimg" src="assets/img/avatar1.jpg"/>
-                                                {this.props.username}
+                                                {username}
                                             </a>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="/landingpage">Sign Out</a>

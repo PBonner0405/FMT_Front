@@ -5,9 +5,16 @@ import Trading from '../../components/Trading';
 import Description from '../../components/Description';
 import Portfolio from '../../components/Portfolio';
 import MenuBar from '../../components/ProfileMenubar';
-import './style.css';
+import {getStock, getPortfolio} from '../../actions';
+import {connect} from 'react-redux';
+import cookieRead from '../../browser/cookieRead';
 
 class ProfilePage extends Component{
+    componentDidMount(){
+        const username = cookieRead('username');
+        this.props.getStock(username);
+        this.props.getPortfolio(username);
+    }
     render(){
         return(
             <div>              
@@ -22,4 +29,4 @@ class ProfilePage extends Component{
     }
 }
 
-export default ProfilePage;
+export default connect(null,{getStock, getPortfolio})(ProfilePage);

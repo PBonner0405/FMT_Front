@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 
-import { actionSignIn, actionSignOn,getStock } from '../../actions/index';
+import { actionSignIn, actionSignOn } from '../../actions/index';
 import FacebookLogin from 'react-facebook-login';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
@@ -21,7 +21,7 @@ import { NavLink } from "react-router-dom";
 
 class LoginPage extends Component {
   state = {
-    email:'',
+    username:'',
     password: '',
     error:'',
     showPassword:false
@@ -32,9 +32,9 @@ class LoginPage extends Component {
   submitForm(e){
     e.preventDefault();
 
-    const { email, password } = this.state;
+    const { username, password } = this.state;
 
-    console.log(email, password);
+    console.log(username, password);
     Axios({
       method: 'POST',
       url: 'http://192.168.1.120:8000/users/login ',
@@ -42,15 +42,14 @@ class LoginPage extends Component {
         'Content-Type': 'application/json'
       },
       data: {
-        email:email,
+        username:username,
         password:password
       }
     })
       .then(res => {
         console.log(res.data);
         if(res.data === 'Login success!') {
-          this.props.actionSignIn({email});
-          this.props.getStock('testuser');
+          this.props.actionSignIn({username});
           this.props.history.push('/profile');
         }
         else
@@ -62,8 +61,8 @@ class LoginPage extends Component {
         NotificationManager.error('Authentication Failed','Error',5000);
       });
   }
-  handleemailChanged(event){
-    this.setState({ email: event.target.value });
+  handleUsernameChanged(event){
+    this.setState({ username: event.target.value });
 
   }
   handlePasswordChanged(event){
@@ -114,15 +113,15 @@ class LoginPage extends Component {
             <div className="input-group mb-4">
               <div className="input-group-prepend">
                 <span className="input-group-text" id="basic-addon1">
-                  <i className="material-icons">email</i>
+                  <i className="material-icons">account_circle</i>
                 </span>
               </div>
               <input
-                type="email"
+                type="username"
                 className="form-control"
-                value={this.state.email}
-                onChange={this.handleemailChanged.bind(this)}
-                placeholder="Email"
+                value={this.state.username}
+                onChange={this.handleUsernameChanged.bind(this)}
+                placeholder="Username"
                 required
             />
             </div>
@@ -287,7 +286,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ actionSignIn, actionSignOn, getStock }, dispatch);
+  bindActionCreators({ actionSignIn, actionSignOn }, dispatch);
 
 export default withRouter(
   connect(

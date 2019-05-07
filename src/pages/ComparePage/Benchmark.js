@@ -11,63 +11,52 @@ class Benchmark extends React.Component{
             posts:[
                 {
                     "stock":"Car",
-                    "pips":"8.9K",
-                    "trades":"1131",
-                    "roi":"28%",
-                    "avg":"8",
-                    "win":"79%",
-                    "max":"6%",
-                    "weeks":"23"
+                    "count":"24",
+                    "value":"720",
+                    "price":"30",
+                    "profit":"5",
+                    "Edit":"Edit",
                 },
                 {
                     "stock":"Oil",
-                    "pips":"8.9K",
-                    "trades":"1131",
-                    "roi":"28%",
-                    "avg":"8",
-                    "win":"79%",
-                    "max":"6%",
-                    "weeks":"23"
+                    "count":"21",
+                    "value":"1260",
+                    "price":"60",
+                    "profit":"10",
+                    "Edit":"Edit",
                 },
                 {
                     "stock":"Gas",
-                    "pips":"8.9K",
-                    "trades":"1131",
-                    "roi":"28%",
-                    "avg":"8",
-                    "win":"79%",
-                    "max":"6%",
-                    "weeks":"23"
+                    "count":"40",
+                    "value":"440",
+                    "price":"11",
+                    "profit":"15",
+                    "Edit":"Edit",
                 },
                 {
-                    "stock":"Furniture",
-                    "pips":"8.9K",
-                    "trades":"1131",
-                    "roi":"28%",
-                    "avg":"8",
-                    "win":"79%",
-                    "max":"6%",
-                    "weeks":"23"
+                    "stock":"Printer",
+                    "count":"14",
+                    "value":"140",
+                    "price":"10",
+                    "profit":"20",
+                    "Edit":"Edit",
                 },
                 {
-                    "stock":"Wood",
-                    "pips":"8.9K",
-                    "trades":"1131",
-                    "roi":"28%",
-                    "avg":"8",
-                    "win":"79%",
-                    "max":"6%",
-                    "weeks":"23"
+                    "stock":"Computer",
+                    "count":"5",
+                    "value":"150",
+                    "price":"30",
+                    "profit":"30",
+                    "Edit":"Edit",
+                    
                 },
                 {
-                    "stock":"Sugar",
-                    "pips":"8.9K",
-                    "trades":"1131",
-                    "roi":"28%",
-                    "avg":"8",
-                    "win":"79%",
-                    "max":"6%",
-                    "weeks":"23"
+                    "stock":"Mouse",
+                    "count":"20",
+                    "value":"2000",
+                    "price":"100",
+                    "profit":"15",
+                    "Edit":"Edit",
                 },
             ]
         }
@@ -87,53 +76,50 @@ class Benchmark extends React.Component{
             {
                 Header:"Stock",
                 accessor:"stock",
-                width: 150
+                width: 300
             },
             {
-                Header:"PIPS",
-                accessor:"pips",
-                width:150
+                Header:"Shares",
+                accessor:"count",
+                width:300
             },
             {
-                Header:"TRADES",
-                accessor:"trades",
-                width:150
+                Header:"Value($)",
+                accessor:"value",
+                width:300
             },
             {
-                Header:"ROI ANNUALIZED",
-                accessor:"roi",
-                width:250
+                Header:"Profit(%)",
+                accessor:"profit",
+                width:400
             },
             {
-                Header:"AVG PIPS",
-                accessor:"avg",
-                width:150
+                Header:"Price($)",
+                accessor:"price",
+                width:300
             },
             {
-                Header:"WIN %",
-                accessor:"win",
-                width:150
+                Header:({ row }) => (<button className="btn btn-info" style={{width:'100px'}}>Add</button>),
+                accessor:"Edit",
+                Cell: ({ row }) => (
+                <div>
+                    <button className="btn btn-primary" style={{marginRight:'10px'}}onClick={(e) => this.handleButtonClick(e, row)}>Edit</button>
+                    <button className="btn btn-danger" onClick={(e) => this.handleButtonDelete(e, row)}>Delete</button>
+                </div>
+                )
+
+
             },
-            {
-                Header:"MAX DD%",
-                accessor:"max",
-                width:150
-            },
-            {
-                Header:"WEEKS",
-                accessor:"weeks",
-                width:150
-            }
         ];
         return(
+            <center>
             <ReactTable
                 columns={columns}
-                styles={{width:'90%'}}
                 data={this.state.posts}
                 bordered={false}
                 defaultPageSize={10}
                 className="-striped -highlight"
-                />
+                /></center>
         )
     }
 }
