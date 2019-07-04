@@ -3,6 +3,7 @@ import cookieWrite from '../browser/cookieWrite';
 export default (state = [], action) => {
     switch(action.type){
         case 'GET_STOCK':
+            console.log(action);
             action.payload.map(i => {
                 i.shistory.sort((a,b) => Date.parse(a.date) - Date.parse(b.date));
             })

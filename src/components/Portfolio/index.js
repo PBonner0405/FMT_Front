@@ -43,7 +43,8 @@ class Portfolio extends React.Component{
                             totalItemsCount={list.length * 10 / 3}
                             pageRangeDisplayed={4}
                             onChange={this.handlePageChange.bind(this)}/>
-                            <img style={{width:'50px',cursor:'pointer'}}src="assets/img/plus.jpg" data-toggle="modal" data-target="#PortfolioModal" onClick={e => this.clearModal(e)}></img>
+                            <div class="flex"><img style={{width:'50px',cursor:'pointer'}}src="assets/img/plus.jpg" data-toggle="modal" data-target="#PortfolioModal" onClick={e => this.clearModal(e)}></img>
+                            <p style={{color:'#31BB9E'}}>Add Portfolio</p></div>
                             <Modal ref={this.superheroElement}/>
                     </div>
                 </div>

@@ -5,36 +5,43 @@ import {connect} from 'react-redux';
 import AmCharts from "@amcharts/amcharts3-react";
 
 import cookieRead from '../../browser/cookieRead';
-import { array } from 'prop-types';
 const dataProvider =[ {
+	a:"dsaf",
 	date: "2012-08-12",
 	value: 32,
 	value1: 32
   }, {
+	a:"dsaf",
 	date: "2012-08-13",
 	value: 18,
 	value1: 32
   }, {
+	a:"dsaf",
 	date: "2012-08-14",
 	value: 24,
 	value1: 32
   }, {
+	a:"dsaf",
 	date: "2012-08-15",
 	value: 22,
 	value1: 32
   }, {
+	a:"dsaf",
 	date: "2012-08-16",
 	value: 18,
 	value1: 20
   }, {
+	a:"dsaf",
 	date: "2012-08-17",
 	value: 19,
 	value1: 321
   }, {
+	a:"dsaf",
 	date: "2012-08-18",
 	value: 14,
 	value1: 32
   }, {
+	a:"dsaf",
 	date: "2012-08-19",
 	value: 15,
 	value1: 33
@@ -93,94 +100,53 @@ const dataProvider =[ {
 	date: "2012-09-02T00:00:00.000Z",
 	value: 35,
 	value1: 32
-  },];
+  },
+];
 
   const customStyles = {
     container: (provided) => ({
       ...provided,
 	  width: '100%',
 	  margin:'auto',
-	  marginTop:'50px'
+	  marginTop:'20px'
     })
   };
-  var chart = {
-		"type": "serial",
-		"theme": "light",
-		"dataDateFormat": "YYYY-MM-DD",
-		"graphs": [ {
-			"title":"Portfolio0",
-			"lineThickness": 2,
-			"valueField": "value",
-			"bullet": "round",
-			"bulletBorderAlpha": 1,
-			"bulletColor": "#FFFFFF",
-			"bulletSize": 5,
-			"hideBulletsCount": 50,
-			"useLineColorForBulletBorder": true,
-			"balloonText": "[[title]]: [[value]]"
-		}
-		 ],
-		"chartScrollbar": {
-			"graph": "g1",
-			"oppositeAxis": false,
-			"offset": 30,
-			"scrollbarHeight": 20
-		},
-		"chartCursor": {
-		  "pan": true,
-		  "valueLineEnabled": true,
-		  "valueLineBalloonEnabled": true,
-		  "cursorAlpha": 1,
-		  "cursorColor": "#258cbb",
-		  "valueLineAlpha": 0.2,
-		},
-		// "valueAxes":{
-		// 	"color":"#fff"
-		// },
-		"categoryField": "date",
-		"categoryAxis": {
-			"color":"#fff",
-		  "parseDates": true,
-		  "minorGridEnabled": true,
-		  "autoGuides": {
-			"days": [ 0, 6 ],
-			"lineColor": "#fff",
-			"lineAlpha": 0,
-			"fillColor": "#fff",
-			"fillAlpha": 0.2
-		  }
-		},
-		"dataProvider":dataProvider,
-		legend:{}
-  }
 
 class Graph extends React.Component{
     constructor(props){
-        super(props);
-        this.state = {
-			selectedOption:null,
-			portfolios:[],
-			stocks:[],
-			currentPF:{},
-			data:[]
-		};
-		var graph = new AmCharts.AmGraph();
-		graph.title="Portfolio1";
-		graph.valueField="value1";
-		graph.lineThickness = 2;
-		graph.balloonText = "Portfolio1";
-		chart.graphs.push(graph);
-		console.log("CHART",chart);
+		super(props);
+		console.log("DataProvider:",dataProvider);
+		this.state={
+			dataProvider:[],
+			graph:[],
+			currentPF:[]
+		}
 	}
-	CreateEngine(PF){
-		const stStocks = this.state.stocks;
-		this.state.data = [];
 
-		console.log("STOCKS",stStocks);
-		console.log("Portfolios",this.state.portfolios);
+	componentDidMount(){
+		var options = [];
+		var json_str = cookieRead('portfolios');
+		var jsonPF = JSON.parse(json_str);
+		jsonPF.map(i => {
+			if(this.props.title != i.title)
+				options.push({value:i.title, label:i.title});
+		})
+		const result = jsonPF.find(e => e.title === this.props.title);
+		var jsonST;
+		json_str = cookieRead('stocks');
+		jsonST = JSON.parse(json_str);
+
+		// this.state.selectOptions = options;
+		// this.state.portfolios = jsonPF;
+		// this.state.stocks = jsonST;
+
+		/**					CREATE ENGINE			 */
+
+		console.log("STOCKS",jsonST);
+		console.log("Portfolios",jsonPF);
 		var arr_date = [];
-		stStocks.map(i => {
-			i.shistory.map(i => {
+		jsonST.map(i => {
+			i.shistory.map((i) => {
 				arr_date.push(i.date);
 			})
 		})
@@ -189,13 +155,13 @@ class Graph extends React.Component{
 		var cnt;
 		console.log("date",arr_date);
 
-		stStocks.map((i,iStock) => {
+		jsonST.map((i,iStock) => {
 			cnt = 0;
-			arr_stocks[iStock] = new Array
+			arr_stocks[iStock] = new Array;
 			let profit = i.shistory[0].profit;
 			
 			arr_date.map(index => {
-				if(Date.parse(index) == Date.parse(i.shistory[cnt].date)){
+				if(Date.parse(index) === Date.parse(i.shistory[cnt].date)){
 					profit = i.shistory[cnt].profit;
 					if(cnt !== i.shistory.length -1)
 						cnt ++;
@@ -206,84 +172,165 @@ class Graph extends React.Component{
 		console.log("ARRSTOCKS",arr_stocks);
 
 		var sum_array = [];
-		const portfolios = this.state.portfolios;
-		
-		portfolios.map((iport,indexpf ) => {
-			sum_array[indexpf] = new Array;
-				arr_date.map((i, index) => {
-					sum_array[indexpf][index] = 0;
-					iport.stocks.map((temp) => {
-						var stIndex = stStocks.findIndex(e => e.stockName == temp.stock);
-						sum_array[indexpf][index] += arr_stocks[stIndex][index] * temp.cnt;
-					})
-					// arr_stocks.map(profit => {
-					// 	sum_array[index] += profit[index];
-					// })
-					// this.state.data.push({
-					// 	name:Date.parse(i),
-					// 	portfolio:sum_array[index]
-					// })
-				})
-		})
-		var Chartdata = [];
-		arr_date.map((i, index) => {
-			var temp = [];
-			portfolios.map((iPort) => {
-				Chartdata.push({
-					date:i,
-
-				})
+		var array_PnL = [];
+		result.stocks.map((iST) => {
+			var indexST = jsonST.findIndex( e => e.stockName === iST.stockName);
+			var indexHST = 0;
+			var PnL = 0;
+			var buy_array = [];
+			arr_date.map((iDT, indexDT) => {
+				//iST.stockname
+				if(iST.history[indexHST].date === iDT){
+					if(iST.history[indexHST].option === "buy")
+						buy_array.push({quantity:iST.history[indexST].cnt, price: arr_stocks[indexST][indexDT]})
+					if(iST.history[indexHST].option === "sell")
+					{
+						buy_array.map((iBY) => {
+							
+						})
+					}
+					array_PnL[indexDT] = PnL;
+					indexHST ++;
+				}
 			})
 		})
-		console.log("SUM",sum_array);
-	}
-	componentDidMount(){
-		var options = [];
-		var json_str = cookieRead('portfolios');
-		var list = JSON.parse(json_str);
-		list.map(i => {
-			options.push({value:i.title, label:i.title});
-		})
-		const result = list.find(e => e.title === this.props.title);
-		this.state.portfolios = list;
-		this.setState({ selectOptions : options,
-					currentPF : result});
-		json_str = cookieRead('stocks');
-		list = JSON.parse(json_str);
-		this.state.stocks= list;
-		this.CreateEngine(result);
+		// jsonPF.map((iport,indexpf ) => {
+		// 	sum_array[indexpf] = new Array;
+		// 		arr_date.map((i, index) => {
+		// 			sum_array[indexpf][index] = 0;
+		// 			iport.stocks.map((temp) => {
+		// 				var stIndex = jsonST.findIndex(e => e.stockName === temp.stock);
+		// 				sum_array[indexpf][index] += arr_stocks[stIndex][index] * temp.cnt;
+		// 			})
+		// 			// arr_stocks.map(profit => {
+		// 			// 	sum_array[index] += profit[index];
+		// 			// })
+		// 			// this.state.data.push({
+		// 			// 	name:Date.parse(i),
+		// 			// 	portfolio:sum_array[index]
+		// 			// })
+		// 		})
+		// })
+		// console.log("SUM",sum_array);
+
+		// var CData = [];
+		// arr_date.map((i, index) => {
+		// 	var temp = {};
+		// 	temp["date"] = i;
+		// 	jsonPF.map((iPort,indexPort) => {
+		// 		temp[iPort.title] = sum_array[indexPort][index];
+		// 	})
+		// 	CData.push(temp);
+		// })
+		// var graphtemp = [];
+		// graphtemp.push(this.initialGraph(result));
+		// this.setState({dataProvider: CData,
+		// 				selectOptions:options,
+		// 				currentPF:result,
+		// 				graph:graphtemp
+		// 				});
 		
+		// console.log("CREATE ENGINE FINAL DATA",this.state);
+	}
+	initialGraph(currentPF){
+		var graph = new AmCharts.AmGraph();
+		graph.id = "g1";
+		graph.title= currentPF.title;
+		graph.valueField=currentPF.title;
+		graph.lineThickness = 2;
+		graph.balloonText = "[[title]]: [[value]]";
+		graph.bullet = "round";
+		graph.bulletBorderAlpha = 1;
+		graph.bulletColor = "#FFFFFF";
+		graph.bulletSize = 5;
+		graph.hideBulletsCount = 50;
+		graph.useLineColorForBulletBorder = true;
+		return graph;
 	}
     handleChange = (selectedOption) => {
-        this.setState({selectedOption:selectedOption});
-        console.log('Option selected:',selectedOption);
-    }
-    
+		console.log('Option selected:',this.state);
+		var temp = [];
+		temp.push(this.initialGraph(this.state.currentPF));
+		if(selectedOption != null)
+		{
+			selectedOption.map(i => {
+				var graph = new AmCharts.AmGraph();
+				graph.title= i.value;
+				graph.valueField=i.value;
+				graph.lineThickness = 2;
+				graph.balloonText = "[[title]]: [[value]]";
+				graph.bullet = "round";
+				graph.bulletBorderAlpha = 1;
+				graph.bulletColor = "#FFFFFF";
+				graph.bulletSize = 5;
+				graph.hideBulletsCount = 50;
+				graph.useLineColorForBulletBorder = true;
+				temp.push(graph);
+			})
+		}
+		this.setState({
+			graph:temp
+		});
+	}
+	makeConfig(dataProvider, graphs){
+		return {
+			"type": "serial",
+			"theme": "light",
+			"dataDateFormat": "YYYY-MM-DD",
+			"chartScrollbar": {
+				"graph": "g1",
+				"oppositeAxis": false,
+				"offset": 30,
+				"scrollbarHeight": 20
+			},
+			"chartCursor": {
+			  "pan": true,
+			  "valueLineEnabled": true,
+			  "valueLineBalloonEnabled": true,
+			  "cursorAlpha": 1,
+			  "cursorColor": "#258cbb",
+			  "valueLineAlpha": 0.2,
+			},
+			"categoryField": "date",
+			"categoryAxis": {
+				"color":"#fff",
+			  "parseDates": true,
+			  "minorGridEnabled": true,
+			  "autoGuides": {
+				"days": [ 0, 6 ],
+				"lineColor": "#000",
+				"lineAlpha": 0,
+				"fillColor": "#000",
+				"fillAlpha": 0.2
+			  }
+			},
+			"graphs": graphs,
+			"dataProvider":dataProvider,
+			legend:{}
+		}
+	}
     render(){
 		
 		console.log("RESULT",this.state);
-        const {selectedOption} = this.state;
+		const config = this.makeConfig(this.state.dataProvider,this.state.graph);
         return(
             <section className="text-center row" style={{marginRight:'0px'}}>
+			<Select className="col-md-4"
+				styles={customStyles}
+				onChange={this.handleChange}
+				options={this.state.selectOptions}
+				isMulti
+			/>
                 <div className="col-md-12" >
-					<AmCharts.React style={{height:'500px' ,width:'100%'}} options={chart}/>
-
-
+					<AmCharts.React style={{height:'500px' ,width:'100%'}} options={config}/>
                 </div>
-					<Select className="col-md-4"
-						styles={customStyles}
-						value={selectedOption}
-						onChange={this.handleChange}
-						options={this.state.selectOptions}
-						isMulti
-					/>
             </section>
         )
     }
 }
 const mapStateToProps = (state) => {
 	console.log("STATE",state);
-    return state.inform.portfolios == undefined ? {portfolios:[]}:{portfolios: state.inform.portfolios};
+    return state.inform.portfolios === undefined ? {portfolios:[]}:{portfolios: state.inform.portfolios};
 }
 
 export default connect(mapStateToProps)(Graph);

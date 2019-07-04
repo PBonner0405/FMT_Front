@@ -3,8 +3,6 @@ import {Tabs,Tab} from 'react-bootstrap';
 import Graph from './Graph';
 import Benchmark from './Benchmark';
 import {withRouter} from 'react-router';
-import {getStock, getPortfolio} from '../../actions';
-import {connect} from 'react-redux';
 
 class ComparePage extends React.Component{
 
@@ -23,7 +21,7 @@ class ComparePage extends React.Component{
                 <section class="single-page-header">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-12" style={{padding:'0px!important'}}>
+                            <div class="col-md-12">
                                 <h2>Compare</h2>
                                 <nav aria-label="breadcrumb mx-auto" role="navigation">
                                 <ol class="breadcrumb">

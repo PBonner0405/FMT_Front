@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto:400,500,700,900");
 
+
 p {
   font-family: "Roboto", sans-serif;
   color: #9a9a9a;
@@ -520,6 +521,7 @@ a:focus, a:hover {
   color: #70D70D;
 }
 .hero-area {
+  height:100vh;
   padding: 250px 0;
   position: relative;
   display: -webkit-box;
@@ -1933,7 +1935,7 @@ nav{-webkit-transition: padding-top .3s,padding-bottom .3s;
   margin-top:30px;
   
 }
-#__AmCharts_React_1__{
+.amcharts-main-div{
   background:#101c1cc4;
 }
 text{

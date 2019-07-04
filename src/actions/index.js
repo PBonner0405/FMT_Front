@@ -44,7 +44,13 @@ import Axios from 'axios';
       }
     })
     .then(res => {
-      dispatch({
+      if(res.data == 'No stocks found')
+        dispatch({
+          type: 'GET_STOCK',
+          payload:[]
+        })
+        else
+        dispatch({
         type: 'GET_STOCK',
         payload:res.data
       })
@@ -64,10 +70,17 @@ import Axios from 'axios';
       }
     })
     .then(res => {
-      dispatch({
-        type: 'GET_PORTFOLIO',
-        payload:res.data
-      })
+      console.log("Portfolios:",res.data);
+      if(res.data == 'No stocks found')
+        dispatch({
+          type: 'GET_PORTFOLIO',
+          payload:[]
+        })
+      else
+        dispatch({
+          type: 'GET_PORTFOLIO',
+          payload:res.data
+        })
     })
     
   };

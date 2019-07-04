@@ -21,7 +21,6 @@ class Modal extends React.Component{
     componentDidMount(){
         var options=[];
         let {list} = this.props;
-        console.log("Before", this.props);
         list.map(i=>
             options.push({value:i.stockName, label:i.stockName}),
         )
