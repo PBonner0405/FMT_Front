@@ -15,6 +15,7 @@ export default (state = [], action) => {
             }
         case 'GET_PORTFOLIO':
         var json_str = JSON.stringify(action.payload);
+        console.log("KKKKKKKKKKKKKKKKKKKKKKKKI am writing",json_str);
             cookieWrite('portfolios',json_str);
             return {
                 ...state,

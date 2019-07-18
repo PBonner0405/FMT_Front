@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
 
-class Benchmark extends React.Component{
+class Table extends React.Component{
 
     constructor(props){
         super(props);
@@ -70,33 +70,39 @@ class Benchmark extends React.Component{
     //         this.setState({posts:posts});
     //     })
     // }
+    onChangeFct = () => console.log("onChange usually handled by redux");
 
     render(){
         const columns = [
             {
                 Header:"Stock",
                 accessor:"stock",
-                width: 300
+                width: 300,
+                render: props => <input value={props.row.name} onChange={this.onChangeFct} />
             },
             {
                 Header:"Shares",
                 accessor:"count",
-                width:300
+                width:300,
+                render: props => <input value={props.row.name} onChange={this.onChangeFct} />
             },
             {
                 Header:"Value($)",
                 accessor:"value",
-                width:300
+                width:300,
+                render: props => <input value={props.row.name} onChange={this.onChangeFct} />
             },
             {
                 Header:"Profit(%)",
                 accessor:"profit",
-                width:400
+                width:400,
+                render: props => <input value={props.row.name} onChange={this.onChangeFct} />
             },
             {
                 Header:"Price($)",
                 accessor:"price",
-                width:300
+                width:300,
+                render: props => <input value={props.row.name} onChange={this.onChangeFct} />
             },
             {
                 Header:({ row }) => (<button className="btn btn-info" style={{width:'100px'}}>Add</button>),
@@ -124,4 +130,4 @@ class Benchmark extends React.Component{
     }
 }
 
-export default Benchmark;
+export default Table;

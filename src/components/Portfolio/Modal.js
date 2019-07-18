@@ -3,6 +3,7 @@ import ChildModal from './ChildModal';
 import Axios from 'axios';
 import cookieRead from '../../browser/cookieRead';
 import {connect} from 'react-redux';
+import APIpath from '../api.js';
 
 class Modal extends React.Component{
     constructor(props){
@@ -12,7 +13,8 @@ class Modal extends React.Component{
             pTitle:'',
             pComment:'',
             cnt:100,
-            options:[]
+            options:[],
+            pCash:0
             
         }
         console.log("Before", this.props);
@@ -50,7 +52,7 @@ class Modal extends React.Component{
         console.log("Send Data:",username,this.state.pTitle,this.state.pComment, hisarr,date);
         Axios({
             method: 'POST',
-            url: "http://192.168.1.120:8000/api/addPortfolio",
+            url: APIpath + '/api/addPortfolio',
             headers: {
               'Content-Type': 'application/json'
             },
@@ -58,6 +60,7 @@ class Modal extends React.Component{
               _username:username,
               _title:this.state.pTitle,
               _comment:this.state.pComment,
+              _cash:this.state.pCash,
               _stockArray:hisarr,
               _date:date
             }
@@ -84,7 +87,8 @@ class Modal extends React.Component{
         this.setState({
             inform: [<ChildModal options = {this.state.options} key={this.state.cnt} ref={(ref) => this.ref_infos = [...this.ref_infos, ref] }/>],
             pTitle:'',
-            pComment:''
+            pComment:'',
+            pCash:0
         })
         
     }
@@ -93,6 +97,9 @@ class Modal extends React.Component{
     }
     handleCommentChange(event){
         this.setState({pComment:event.target.value});
+    }
+    handleCashChange(event){
+        this.setState({pCash:event.target.value})
     }
     render(){
         return(
@@ -105,12 +112,16 @@ class Modal extends React.Component{
                             </div>
                             <div class="modal-body" style={{padding:'50px'}}>
                                     <div class="d-flex col-md-6" style={{margin:'auto', marginBottom:'40px'}}>
-                                        <p>Title</p>
+                                        <p className='text-right-align'>Title</p>
                                         <input type="text" class="form-control" required value={this.state.pTitle} onChange={this.handleTitleChange.bind(this)}/>
                                     </div>
                                     <div class="d-flex col-md-6" style={{margin:'auto', marginBottom:'40px'}}>
-                                        <p>Comment</p>
+                                        <p className='text-right-align'>Comment</p>
                                         <textarea class="form-control" rows="5" id="comment" required value={this.state.pComment} onChange={this.handleCommentChange.bind(this)}></textarea>
+                                    </div>
+                                    <div class="d-flex col-md-6" style={{margin:'auto', marginBottom:'40px'}}>
+                                        <p className='text-right-align'>Cash</p>
+                                        <input type="number" class="form-control" required placeholder="0" onChange={this.handleCashChange.bind(this)}/>
                                     </div>
                                     {this.state.inform.map(function(input){
                                         return input;

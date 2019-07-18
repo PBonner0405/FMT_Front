@@ -9,6 +9,7 @@ import { actionSignIn, actionSignOn } from '../../actions/index';
 import FacebookLogin from 'react-facebook-login';
 import 'react-notifications/lib/notifications.css';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import APIPath from '../../components/api.js';
 
 
 import {
@@ -37,7 +38,7 @@ class LoginPage extends Component {
     console.log(username, password);
     Axios({
       method: 'POST',
-      url: 'http://192.168.1.120:8000/users/login ',
+      url: APIPath + '/users/login ',
       headers: {
         'Content-Type': 'application/json'
       },

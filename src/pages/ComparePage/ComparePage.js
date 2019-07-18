@@ -1,8 +1,9 @@
 import React from 'react';
 import {Tabs,Tab} from 'react-bootstrap';
 import Graph from './Graph';
-import Benchmark from './Benchmark';
-import {withRouter} from 'react-router';
+// import Table from './Table';
+import {withRouter} from 'react-router-dom';
+import SimpleTable from './Table'
 
 class ComparePage extends React.Component{
 
@@ -41,7 +42,7 @@ class ComparePage extends React.Component{
                         <Graph title = {this.props.location.state.title}></Graph>
                     </Tab>
                     <Tab eventKey="profile" title="Benchmark">
-                    <Benchmark></Benchmark>
+                        <SimpleTable title = {this.props.location.state.title}></SimpleTable>
                     </Tab>
                 </Tabs>
             </div>
@@ -49,4 +50,4 @@ class ComparePage extends React.Component{
     }
 }
 
-export default withRouter(ComparePage);
+export default (withRouter(ComparePage));

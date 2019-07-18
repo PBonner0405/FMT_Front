@@ -26,7 +26,7 @@ class InformType extends React.Component{
                 </div>
                 <div class="d-flex mb-3 col-md-4">
                     <p>Price ($)</p>
-                    <input type="number" class="form-control" required placeholder="0" onChange={this.handlePriceChange.bind(this)}/>
+                    <input type="number" step="0.001" class="form-control" required placeholder="0" onChange={this.handlePriceChange.bind(this)}/>
                 </div>
             </div>
         )

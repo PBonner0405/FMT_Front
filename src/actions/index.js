@@ -6,7 +6,8 @@ import {
     SIGN_ON
   } from '../constants';
 import Axios from 'axios';
-  
+import APIPath from '../components/api.js';
+
   export const AppIsReady = payload => ({
     type: APP_IS_READY,
     payload
@@ -35,7 +36,7 @@ import Axios from 'axios';
   export const getStock = (username) => async (dispatch) => {
     await Axios({
       method: 'POST',
-      url: 'http://192.168.1.120:8000/api/getUserStocks',
+      url: APIPath + '/api/getUserStocks',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -44,7 +45,8 @@ import Axios from 'axios';
       }
     })
     .then(res => {
-      if(res.data == 'No stocks found')
+      console.log("STOCKS",res);
+      if(res.data === 'No stocks found')
         dispatch({
           type: 'GET_STOCK',
           payload:[]
@@ -54,6 +56,8 @@ import Axios from 'axios';
         type: 'GET_STOCK',
         payload:res.data
       })
+    }).catch(err => {
+      console.log(err);
     })
     
   };
@@ -61,7 +65,7 @@ import Axios from 'axios';
   export const getPortfolio = (username) => async (dispatch) => {
     await Axios({
       method: 'POST',
-      url: 'http://192.168.1.120:8000/api/getUserPortfolios',
+      url: APIPath + '/api/getUserPortfolios',
       headers: {
         'Content-Type': 'application/json'
       },

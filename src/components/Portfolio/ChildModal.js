@@ -68,13 +68,13 @@ class ChildModal extends React.Component{
                     <input type="date" class="form-control" required placeholder="05-03-2019" onChange={this.handleDateChange.bind(this)}/>
                 </div>
                 <div class="d-flex mb-3 col-md-2">
-                    <p class="mr-3 mt-1">Count</p>
+                    <p class="mr-3 mt-1">Quantity</p>
                     <input type="number" class="form-control" required placeholder="0" onChange={this.handleCountChange.bind(this)}/>
                 </div>
 
                 <div class="d-flex mb-3 col-md-2">
                     <p class="mr-3 mt-1">Price($)</p>
-                    <input type="number" class="form-control" required placeholder="0" onChange={this.handlePriceChange.bind(this)}/>
+                    <input type="number" step="0.001" class="form-control" required placeholder="0" onChange={this.handlePriceChange.bind(this)}/>
                 </div>
             </div>
         )

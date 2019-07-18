@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 
 import { LogInCard, Form, Button } from "../../Shared/styles.js";
 import { NavLink } from "react-router-dom";
-
+import APIPath from '../../components/api.js'
 
 
 class SignupPage extends Component {
@@ -45,7 +45,7 @@ class SignupPage extends Component {
     } = this.state;
 
 
-    const url = 'http://192.168.1.120:8000/users/register';
+    const url = APIPath + '/users/register';
     console.log("I am here!!!!!!!!!!");
     Axios({
       method: 'POST',

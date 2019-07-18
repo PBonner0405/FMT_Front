@@ -2,6 +2,7 @@ import React from 'react';
 import InformType from './ChildModal';
 import Axios from 'axios';
 import cookieRead from '../../browser/cookieRead';
+import APIPath from '../api.js';
 
 class Modal extends React.Component{
     constructor(props){
@@ -38,7 +39,7 @@ class Modal extends React.Component{
         const username = cookieRead('username');
         Axios({
             method: 'POST',
-            url: "http://192.168.1.120:8000/api/addnewstock",
+            url: APIPath + "/api/addnewstock",
             headers: {
               'Content-Type': 'application/json'
             },
@@ -49,6 +50,7 @@ class Modal extends React.Component{
             }
           })
             .then(res => {
+                console.log(res);
                 
             })
             .catch(err => {
