@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import AmCharts from "@amcharts/amcharts3-react";
 
 import cookieRead from '../../browser/cookieRead';
+import {getStock, getPortfolio} from '../../actions';
 
   const customStyles = {
     container: (provided) => ({
@@ -22,64 +23,28 @@ class Graph extends React.Component{
 			dataProvider:[],
 			graph:[],
 		}
+		this.InitializeData = this.InitializeData.bind(this);
 	}
+	
+	componentWillReceiveProps(newProps) {
+		console.log('Component WILL UPDATE!:PROPS',newProps);
+		this.InitializeData(newProps);
+		return true;
+	 }
+	 componentDidMount(){
+		this.InitializeData(this.props);
+	 }
+	InitializeData(props){
 
-	componentDidMount(){
-		console.log("I am graph!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		var options = [];
-
-		var json_str = cookieRead('portfolios');
-		var jsonPF = JSON.parse(json_str);
-		var jsonPF1 = [{
-			comment: "Amazing Marketing",
-			date: "2019-07-08T04:00:00.000Z",
-			likes: 0,
-			title: "PortFoA",
-			stocks:[
-				{	
-					buy: true,
-					cnt: "1000",
-					date: "2019-01-01",
-					stock: "ProA",
-					price: "25"
-				},
-				{
-					buy: false,
-					cnt: "1000",
-					date: "2019-07-01",
-					stock: "ProA",
-					price: "25"
-				},
-				{
-					buy: true,
-					cnt: "50",
-					date: "2019-04-01",
-					stock: "ProB",
-					price: "25"
-				},
-				{
-					buy: true,
-					cnt: "100",
-					date: "2019-09-01",
-					stock: "ProB",
-					price: "25"
-				},
-				{
-					buy: false,
-					cnt: "150",
-					date: "2019-12-31",
-					stock: "ProB",
-					price: "25"
-				}
-			]
-		}]
-		console.log(this.props.title);
+		var jsonPF, jsonST;
+		jsonPF = props.portfolios;
+		jsonST = props.stocks;
+		console.log("This is Graph!!!!!!!!");
+		console.log("Stocks",jsonST);
 		console.log("Portfolios",jsonPF);
+		if(jsonPF.length === 0 | jsonST.length === 0)
+			return;
 		const currentPF = jsonPF.find(e => e.title === this.props.title);
-		var jsonST;
-		json_str = cookieRead('stocks');
-		jsonST = JSON.parse(json_str);
-		console.log("STOCKS",jsonST);
 
 		jsonPF.map((iPF) => {
 			iPF.stocks.map((iST, indST) => {
@@ -204,7 +169,7 @@ class Graph extends React.Component{
 				data[iST.stockName] = arr_PNL[indST][indDT]
 			})
 			data['TotalPNL'] = arr_TPNL[indDT];
-			data['Profit'] = arr_TPNL[indDT] / 50;
+			data['Profit'] = arr_TPNL[indDT] / currentPF.cash * 100;
 			CData.push(data);
 		})
 		var arr_graph = [];
@@ -245,18 +210,19 @@ class Graph extends React.Component{
 		return graph;
 	}
 	setGraph(selectedOption){
-		switch(selectedOption){
-			case 'Profit':
-				var arr_graph = [];
-				arr_graph.push(this.makeGraphData('Profit'));
-				return arr_graph;
-			case 'PNL':
-				var arr_graph = [];
-				this.state.arr_infoST.map((iStockName) => {
-					arr_graph.push(this.makeGraphData(iStockName))
-				})
-				arr_graph.push(this.makeGraphData('TotalPNL'));
-				return arr_graph;
+		var arr_graph = [];
+		if(selectedOption === 'Profit')
+		{
+			arr_graph.push(this.makeGraphData('Profit'));
+			return arr_graph;
+		}
+		else
+		{
+			this.state.arr_infoST.map(iStockName => {
+				arr_graph.push(this.makeGraphData(iStockName))
+			})
+			arr_graph.push(this.makeGraphData('TotalPNL'));
+			return arr_graph;
 		}
 	}
 	makeConfig(dataProvider, graphs){
@@ -316,7 +282,12 @@ class Graph extends React.Component{
     }
 }
 const mapStateToProps = (state) => {
-	console.log("STATE",state);
-    return state.inform.portfolios === undefined ? {portfolios:[]}:{portfolios: state.inform.portfolios};
+	
+    const stocks =  state.inform.stocks === undefined ? [] : state.inform.stocks;
+	const portfolios =  state.inform.portfolios === undefined ? [] : state.inform.portfolios;
+	console.log("MAPSTATE", state.inform.stocks, state.inform.portfolios);
+    return {stocks:stocks, portfolios:portfolios};
 }
-export default connect(mapStateToProps)(Graph);
+
+
+export default connect(mapStateToProps, { getStock,getPortfolio})(Graph);

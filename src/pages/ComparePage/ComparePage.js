@@ -5,6 +5,10 @@ import Graph from './Graph';
 import {withRouter} from 'react-router-dom';
 import SimpleTable from './Table'
 
+import cookieRead from '../../browser/cookieRead';
+import {getStock, getPortfolio} from '../../actions';
+import {connect} from 'react-redux';
+
 class ComparePage extends React.Component{
 
     constructor(props) {
@@ -12,6 +16,13 @@ class ComparePage extends React.Component{
         this.state = {
           key: 'home'
         };
+        console.log("I am DIDMOUNT");
+        const username = cookieRead('username');
+        this.props.getStock(username);
+        this.props.getPortfolio(username);
+        
+    }
+    componentDidMount(){
     }
     GoHomePage(){
         this.props.history.push('/profile');
@@ -50,4 +61,4 @@ class ComparePage extends React.Component{
     }
 }
 
-export default (withRouter(ComparePage));
+export default withRouter(connect(null, {getStock, getPortfolio})(ComparePage));

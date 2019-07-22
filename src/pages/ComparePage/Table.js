@@ -6,7 +6,6 @@ import APIPath from '../../components/api.js';
 
 import {connect} from 'react-redux';
 import {getStock, getPortfolio} from '../../actions';
-import {withRouter} from 'react-router-dom';
 
 class MTable extends React.Component{
   constructor(props){
@@ -18,54 +17,67 @@ class MTable extends React.Component{
 	this.editRecord = this.editRecord.bind(this);
 	this.addRecord = this.addRecord.bind(this);
 	this.deleteRecord = this.deleteRecord.bind(this);
-  }
-  
-  componentDidMount(){
-	var jsonST, json_str;
-	json_str = cookieRead('stocks');
-	jsonST = JSON.parse(json_str);
+	this.InitializeData = this.InitializeData.bind(this);
+	}
 
-	json_str = cookieRead('portfolios');
-	var jsonPF = JSON.parse(json_str);
-	
-	var lookupST = {};
-	jsonST.map((iST, indexST) => {
-		lookupST[indexST.toString()] = iST.stockName;
-	})
+	componentWillReceiveProps(newProps) {
+		console.log('Component WILL UPDATE!:PROPS',newProps);
+		this.InitializeData(newProps);
+		return true;
+	}
+	componentDidMount(){
+		this.InitializeData(this.props);
+	}
+	InitializeData(props){
+			
+		var jsonST, jsonPF;
+		
+		jsonST = props.stocks;
+		jsonPF = props.portfolios;
+		if(jsonPF.length === 0 | jsonST.length === 0)
+			return;
+		console.log("This is Table!!!!!!!!!!!!!!!!!!!!!");
+		console.log("I am stocks",jsonST);
+		console.log("I am portfolios",jsonPF);
+		
+		
+		var lookupST = {};
+		jsonST.map((iST, indexST) => {
+			lookupST[indexST.toString()] = iST.stockName;
+		})
 
-	var columns = [
-		{
-			title: 'Stock',
-			field: 'stock',
-			lookup: lookupST
-		},
-		{ title: 'Date', field: 'date'},
-		{ title: 'Quantity', field: 'quantity', type: 'numeric'},
-		{ title: 'Price', field: 'price', type: 'numeric'},
-		{
-			title: 'Option',
-			field:'buy',
-			lookup: {true: 'Buy', false: 'Sell'}
-		},
-	];
+		var columns = [
+			{
+				title: 'Stock',
+				field: 'stock',
+				lookup: lookupST
+			},
+			{ title: 'Date', field: 'date'},
+			{ title: 'Quantity', field: 'quantity', type: 'numeric'},
+			{ title: 'Price', field: 'price', type: 'numeric'},
+			{
+				title: 'Option',
+				field:'buy',
+				lookup: {true: 'Buy', false: 'Sell'}
+			},
+		];
 
-	
+		
 
-	var tableData = [];
-	const currentPF = jsonPF.find(e => e.title === this.props.title);
-	currentPF.stocks.map((iST) => {
-		var data = {};
-		data["buy"] = iST.buy;
-		data["quantity"] = iST.cnt;
-		data["date"] = iST.date;
-		data["price"] = iST.price;
-		data["stock"] = jsonST.findIndex(e => e.stockName === iST.stock);
-		tableData.push(data);
-	})
+		var tableData = [];
+		const currentPF = jsonPF.find(e => e.title === this.props.title);
+		currentPF.stocks.map((iST) => {
+			var data = {};
+			data["buy"] = iST.buy;
+			data["quantity"] = iST.cnt;
+			data["date"] = iST.date;
+			data["price"] = iST.price;
+			data["stock"] = jsonST.findIndex(e => e.stockName === iST.stock);
+			tableData.push(data);
+		})
 
-	this.setState({columns:columns, data:tableData, jsonST:jsonST});
-	
-  }
+		this.setState({columns:columns, data:tableData, jsonST:jsonST});
+	}
   editRecord(data){
 	const username = cookieRead('username');
 	var stockinfo = {
@@ -94,10 +106,10 @@ class MTable extends React.Component{
 			console.log(res);
 			
 			const username = cookieRead('username');
+
 			this.props.getStock(username);
 			this.props.getPortfolio(username);
-			console.log(cookieRead('stocks'));
-			// window.location.reload();
+			window.location.reload();
 		})
 		.catch(err => {
 			console.log(err);
@@ -207,5 +219,11 @@ class MTable extends React.Component{
   }
   
 }
+const mapStateToProps = (state) => {
+    const stocks =  state.inform.stocks === undefined ? [] : state.inform.stocks;
+	const portfolios =  state.inform.portfolios === undefined ? [] : state.inform.portfolios;
+	console.log("TABLEMAPSTATE", state.inform.stocks, state.inform.portfolios);
+    return {stocks:stocks, portfolios:portfolios};
+}
 
-export default connect(null, { getStock,getPortfolio})(withRouter(MTable));
+export default connect(mapStateToProps, { getStock,getPortfolio})(MTable);
