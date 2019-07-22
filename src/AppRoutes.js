@@ -10,19 +10,19 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import PortfolioPage from './pages/PortfolioPage/PortfolioPage';
 import NotFound from './pages/NotFound/NotFound';
-
+import ComparePage from './pages/ComparePage/ComparePage';
 class AppRoutes extends Component {
     state = {};
 
     render() {
         return (
             <Switch>
-                <Route exact path='/' component={LandingPage} />
                 <Route path='/login' component={LoginPage} />
                 <Route path='/signup' component={SignupPage} />
                 <Route path='/profile' component={ProfilePage} />
                 <Route path='/portfolio' component={PortfolioPage} />
                 <Route path='/landingpage' component={LandingPage} />
+                <Route path='/comparepage' component={ComparePage} />
                 <Redirect exact from='/' to='/landingpage' />
                 <Route component={NotFound} />
             </Switch>

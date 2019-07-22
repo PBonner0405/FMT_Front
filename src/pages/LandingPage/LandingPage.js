@@ -1,8 +1,12 @@
 import React from 'react';
-
+import About from '../../components/About';
+import LandingMenuBar from '../../components/LandingMenubar';
 const LandingPage = () => {
     return(
-        <h1>LandingPage</h1>
+        <div>
+            <About/>
+            <LandingMenuBar/>
+        </div>
     );
 };
 
