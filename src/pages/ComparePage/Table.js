@@ -70,7 +70,7 @@ class MTable extends React.Component{
 			var data = {};
 			data["buy"] = iST.buy;
 			data["quantity"] = iST.cnt;
-			data["date"] = iST.date;
+			data["date"] = iST.date.split('T')[0];
 			data["price"] = iST.price;
 			data["stock"] = jsonST.findIndex(e => e.stockName === iST.stock);
 			tableData.push(data);
@@ -83,11 +83,12 @@ class MTable extends React.Component{
 	var stockinfo = {
 		stock: this.state.jsonST[parseInt(data.stock)].stockName,
 		shares: parseInt(data.quantity),
-		buy: data.buy,
+		buy: data.buy === 'true' ? true: false,
 		date: data.date,
 		price: parseFloat(data.price),
 		index:data.tableData.id
 	}
+	console.log("EDIT RECORD", stockinfo);
 	Axios({
 		method: 'POST',
 		url: APIPath + "/api/editPortfolio",
@@ -141,6 +142,11 @@ class MTable extends React.Component{
 		})
 		.then(res => {
 			console.log(res);
+			const username = cookieRead('username');
+
+			this.props.getStock(username);
+			this.props.getPortfolio(username);
+			window.location.reload();
 		})
 		.catch(err => {
 			console.log(err);
@@ -168,7 +174,11 @@ class MTable extends React.Component{
 		}
 		})
 		.then(res => {
-			console.log(res);
+			console.log("I am deleted:",res);
+			const username = cookieRead('username');
+			this.props.getStock(username);
+			this.props.getPortfolio(username);
+			// window.location.reload();
 		})
 		.catch(err => {
 			console.log(err);

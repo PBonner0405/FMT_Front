@@ -91,11 +91,24 @@ class Graph extends React.Component{
 			var cnt = 0;
 			arr_price[indST] = new Array;
 			let price = 0;
+			var ar_his = [{date:iST.shistory[0].date, price:iST.shistory[0].price}];
+			var cnt_his = 0;
+			iST.shistory.map(hisST => {
+				if(Date.parse(hisST.date) !== Date.parse(ar_his[cnt_his].date))
+				{
+					ar_his.push({date:hisST.date, price:hisST.price})
+					cnt_his++;
+				}
+				else{
+					ar_his[cnt_his].price = hisST.price;
+				}
+			})
+			console.log("I am AR_HIS",ar_his);
 
 			arr_date.map(index => {
-				if(Date.parse(index) === Date.parse(iST.shistory[cnt].date)){
-					price = iST.shistory[cnt].price;
-					if(cnt !== iST.shistory.length -1)
+				if(Date.parse(index) === Date.parse(ar_his[cnt].date)){
+					price = ar_his[cnt].price;
+					if(cnt !== ar_his.length -1)
 						cnt ++;
 				}
 				arr_price[indST].push(price);

@@ -45,7 +45,6 @@ import APIPath from '../components/api.js';
       }
     })
     .then(res => {
-      console.log("STOCKS",res);
       if(res.data === 'No stocks found')
         dispatch({
           type: 'GET_STOCK',
@@ -57,7 +56,6 @@ import APIPath from '../components/api.js';
         payload:res.data
       })
     }).catch(err => {
-      console.log(err);
     })
     
   };
@@ -74,7 +72,6 @@ import APIPath from '../components/api.js';
       }
     })
     .then(res => {
-      console.log("Portfolios:",res.data);
       if(res.data == 'No stocks found')
         dispatch({
           type: 'GET_PORTFOLIO',

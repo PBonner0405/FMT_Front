@@ -17,7 +17,6 @@ class Modal extends React.Component{
             pCash:0
             
         }
-        console.log("Before", this.props);
         this.ref_infos = [];
     }
     componentDidMount(){
@@ -27,13 +26,11 @@ class Modal extends React.Component{
             options.push({value:i.stockName, label:i.stockName}),
         )
         this.state.options = options;
-        console.log("STATE1", this.state);
     }
     addStock(event){
         event.preventDefault();
         const inform = this.state.inform;
         this.Addcount();
-        console.log(this.ref_infos, "REFFFFFF2");
 
         this.setState({
             inform: inform.concat(<ChildModal options = {this.state.options} key = {this.state.cnt} ref={(ref) => this.ref_infos = [...this.ref_infos, ref] }/>)
@@ -41,7 +38,6 @@ class Modal extends React.Component{
     }
     sendStock(event){
         var hisarr = [];
-        console.log("REFINFOS", this.ref_infos);
         this.ref_infos.map(function(object, index){
             if(object != null || object != undefined)
             hisarr.push(object.state);
@@ -49,7 +45,6 @@ class Modal extends React.Component{
         const username = cookieRead('username');
         var today = new Date(),
             date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-        console.log("Send Data:",username,this.state.pTitle,this.state.pComment, hisarr,date);
         Axios({
             method: 'POST',
             url: APIpath + '/api/addPortfolio',
@@ -69,7 +64,6 @@ class Modal extends React.Component{
                 
             })
             .catch(err => {
-              console.log(err);
             });
         
     }

@@ -17,7 +17,6 @@ class Stock extends Component{
     }
     handlePageChange(pageNumber)
     {
-        console.log(`active page is ${pageNumber}`);
         this.setState({activePage : pageNumber});
         this.setState((prevState, props) => {
             return {
@@ -64,7 +63,6 @@ class Stock extends Component{
     }
 }
 const mapStateToProps = (state) => {
-    console.log("STATE:-------------",state);
     
     return state.inform.stocks === undefined ? {list:[]} : {list: state.inform.stocks};
 }
