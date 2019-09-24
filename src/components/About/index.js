@@ -18,6 +18,7 @@ class About extends React.Component{
                         </div>
                     </div>
                 </div>
+                <p className='owned-style'>Owned by Dan Lin</p>
             </section>
         )
     }
